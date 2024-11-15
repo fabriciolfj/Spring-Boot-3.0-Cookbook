@@ -15,7 +15,7 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        fileLoader.loadFile();
+        //fileLoader.loadFile();
     }
 
 }

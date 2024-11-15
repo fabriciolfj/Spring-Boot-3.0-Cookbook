@@ -1,17 +1,17 @@
 management:
   tracing:
     sampling:
-      probability: 1.0
+      probability: 0.0
     endpoint:
       health:
         probes:
             enabled: true
-    endpoints:
-        web:
-            exposure:
-                include: health,env,metrics,beans,loggers,football
+  endpoints:
+    web:
+      exposure:
+        include: health,env,metrics,beans,loggers,football
 football:
-    folder: teams
+    folder: ../../teams
 
 spring:
   application:
