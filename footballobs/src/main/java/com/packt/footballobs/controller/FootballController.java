@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.packt.footballobs.service.AuctionService;
 import com.packt.footballobs.service.DataService;
+import com.packt.footballobs.service.TradingService;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
@@ -25,12 +26,25 @@ public class FootballController {
     private final ObservationRegistry observationRegistry;
     private final DataService dataService;
     private final AuctionService auctionService;
+    private final TradingService tradingService;
 
-    public FootballController(FileLoader fileLoader, ObservationRegistry observationRegistry, DataService dataService, AuctionService auctionService){
+    public FootballController(FileLoader fileLoader, ObservationRegistry observationRegistry, DataService dataService, AuctionService auctionService,
+                              TradingService tradingService){
         this.fileLoader = fileLoader;
         this.observationRegistry = observationRegistry;
         this.dataService = dataService;
         this.auctionService = auctionService;
+        this.tradingService = tradingService;
+    }
+
+    @GetMapping("/pending_orders")
+    public int getPendingOrders() {
+        return tradingService.getPendingOrders();
+    }
+
+    @GetMapping("/trade/{orders}")
+    public int getPendingOrders(@PathVariable("orders") int orders) {
+        return tradingService.tradeCards(orders);
     }
 
     @PostMapping("/bid/{player}")

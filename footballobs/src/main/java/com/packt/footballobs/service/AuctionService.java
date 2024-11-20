@@ -10,20 +10,20 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Observed(name = "football.auction")
+//@Observed(name = "football.auction")
 @Service
 public class AuctionService {
 
     private Map<String, String> bids = new ConcurrentHashMap<>();
     private Random random = new Random();
-    /*private Counter bidReceivedCounter;
+    private Counter bidReceivedCounter;
     private Timer bidDuration;
 
     public AuctionService(final MeterRegistry meterRegistry) {
         meterRegistry.gauge("football.bids.pending", bids, Map::size);
         this.bidReceivedCounter = meterRegistry.counter("football.bids.received");
         this.bidDuration = meterRegistry.timer("football.bids.duration");
-    }*/
+    }
 
     public void addBid(String player, String bid) {
         bids.put(player, bid);
@@ -34,7 +34,7 @@ public class AuctionService {
             throw new RuntimeException(e);
         }
 
-        /*bids.remove(player);
+        //bids.remove(player);
         bidDuration.record(() -> {
            bids.put(player, bid);
            bidReceivedCounter.increment();
@@ -45,9 +45,9 @@ public class AuctionService {
                 throw new RuntimeException(e);
             }
 
-            bids.remove(player);
+            //bids.remove(player);
         });
-         */
+
     }
 
 }

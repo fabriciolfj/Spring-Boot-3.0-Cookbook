@@ -9,7 +9,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,env,metrics,beans,loggers,football
+        include: health,env,metrics,beans,loggers,football,prometheus
 football:
     folder: ../../teams
 
