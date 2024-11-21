@@ -22,7 +22,13 @@ public class AlbumsController {
 
     @GetMapping("/serviceinfo")
     public String getServiceInfo() {
+        System.out.println("chegou");
         return footballClient.getServiceInfo();
+    }
+
+    @GetMapping
+    public List<String> getAlbums() {
+        return List.of("Album 1", "Album 2", "Album 3");
     }
 
 }

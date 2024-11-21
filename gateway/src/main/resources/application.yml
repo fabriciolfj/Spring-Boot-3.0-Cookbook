@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: players
+          uri: ${PLAYERS_URI:lb://footballserver}
+          predicates:
+            - Path=/api/players/**
+          filters:
+            - StripPrefix=1
+        - id: albums
+          uri: ${ALBUMS_URI:lb://AlbumsServer}
+          predicates:
+            - Path=/api/albums/**
+          filters:
+            - StripPrefix=1
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
