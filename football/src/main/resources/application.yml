@@ -1,15 +1,27 @@
-football:
-  instanceId: ${random.int}
-server:
-  port: 0
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,env,metrics,beans,loggers,prometheus
+  tracing:
+    sampling:
+      probability: 0.01
 spring:
-  config:
-    import: optional:configserver:http://localhost:8888
   application:
-    name: FootballServer
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    instance-id: ${spring.application.name}:${random.int}
+    name: football
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    # show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/football
+    username: packt
+    password: packt
+    hikari:
+      maximum-pool-size: 10
