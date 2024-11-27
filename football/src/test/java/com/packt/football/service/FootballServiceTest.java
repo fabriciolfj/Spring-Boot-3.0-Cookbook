@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -33,13 +34,18 @@ class FootballServiceTest {
             .withUsername("football")
             .withPassword("football");
 
+    static GenericContainer<?> redisContainer = new GenericContainer<>("redis:latest")
+            .withExposedPorts(6379);
+
     static class Initializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
                             "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
                             "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                            "spring.datasource.password=" + postgreSQLContainer.getPassword())
+                            "spring.datasource.password=" + postgreSQLContainer.getPassword(),
+                            "spring.data.redis.host=" + redisContainer.getHost(),
+                            "spring.data.redis.port=" + redisContainer.getMappedPort(6379))
                     .applyTo(configurableApplicationContext.getEnvironment());
         }
     }
@@ -47,6 +53,7 @@ class FootballServiceTest {
     @BeforeAll
     public static void startContainer() {
         postgreSQLContainer.start();
+        redisContainer.start();
     }
 
     @Autowired

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.annotations.Cache;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class PlayersController {
     }
 
     @PutMapping("/{id}/position")
+    @CacheEvict(value = "players", key = "#id")
     public Player updatePlayerPosition(@PathVariable Integer id, @RequestBody String position) {
         return footballService.updatePlayerPosition(id, position);
     }
