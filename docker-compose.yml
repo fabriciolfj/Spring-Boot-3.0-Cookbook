@@ -9,8 +9,6 @@ services:
       POSTGRES_PASSWORD: packt
     ports:
       - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     networks:
       - mynetwork
 
@@ -40,13 +38,20 @@ services:
     image: redis
     ports:
       - "6379:6379"
-
+  rabbitmq:
+    image: rabbitmq:3-management  # Usando a imagem oficial do RabbitMQ com a interface de gerenciamento
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"  # Porta padrão do cliente
+      - "15672:15672" # Porta do console de gerenciamento
+    environment:
+      RABBITMQ_DEFAULT_USER: packt
+      RABBITMQ_DEFAULT_PASS: packt
 
 networks:
   mynetwork:
     driver: bridge
 
 volumes:
-  postgres-data:
   grafana-storage:
     driver: local
