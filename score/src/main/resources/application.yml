@@ -19,16 +19,19 @@ spring:
     stream:
       rabbit:
         bindings:
-          input:
+          input1:
             consumer:
               bindingRoutingKey: football.goal.#
+              auto-bind-dlq: true
+              max-attempts: 3
+              ttl: 1000
       function:
         # routing: enabled
         bindings:
-          processGoals-in-0: input
+          processGoals-in-0: input1
         # routing-expression: headers['eventType']
       bindings:
-        input:
+        input1:
           destination: match-events-topic
           group: score
           # bindingRoutingKey: football.goal.#
